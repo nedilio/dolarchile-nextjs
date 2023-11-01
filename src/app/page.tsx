@@ -1,6 +1,8 @@
+import Input from "./components/Input";
+
 interface Indicator {
   valor: number;
-  codigo: "ud" | "dolar";
+  codigo: "uf" | "dolar";
   fecha: string;
   nombre: string;
 }
@@ -20,7 +22,6 @@ const getFirstDay = async () => {
     month: "numeric",
     day: "numeric",
   });
-  console.log(`https://mindicador.cl/api/${formattedDate}`);
   const res = await fetch(`https://mindicador.cl/api/dolar/${formattedDate}`);
   const { serie } = await res.json();
   const [dolar] = serie;
@@ -35,13 +36,6 @@ const toCurrency = (value: number) => {
 };
 export default async function Home() {
   const indicadores = await getIndicators();
-
-  // const firstDolar = await getFirstDay();
-  // console.log(firstDolar);
-  // const variation = (
-  //   ((indicadores[0].valor - firstDolar.valor) * 100) /
-  //   firstDolar.valor
-  // ).toFixed(2);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-8">
@@ -59,9 +53,20 @@ export default async function Home() {
           <p className="font-semibold text-2xl text-slate-200">
             {toCurrency(indicador.valor)}
           </p>
+          <p className="text-slate-400 text-xs">
+            {new Date(indicador.fecha).toLocaleDateString("es-CL", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            })}
+          </p>
         </article>
       ))}
-
+      <Input dolarValue={indicadores[0].valor} />
       {/* <p>aumento desd inicio de mes: {variation}%</p> */}
     </main>
   );
