@@ -14,19 +14,19 @@ async function getIndicators(): Promise<Indicator[]> {
   return [dolar, uf];
 }
 
-const getFirstDay = async () => {
-  const today = new Date();
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-  const formattedDate = firstDay.toLocaleString("es-CL", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
-  const res = await fetch(`https://mindicador.cl/api/dolar/${formattedDate}`);
-  const { serie } = await res.json();
-  const [dolar] = serie;
-  return dolar;
-};
+// const getFirstDay = async () => {
+//   const today = new Date();
+//   const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+//   const formattedDate = firstDay.toLocaleString("es-CL", {
+//     year: "numeric",
+//     month: "numeric",
+//     day: "numeric",
+//   });
+//   const res = await fetch(`https://mindicador.cl/api/dolar/${formattedDate}`);
+//   const { serie } = await res.json();
+//   const [dolar] = serie;
+//   return dolar;
+// };
 
 const toCurrency = (value: number) => {
   return value.toLocaleString("es-CL", {
@@ -67,7 +67,6 @@ export default async function Home() {
         </article>
       ))}
       <Input dolarValue={indicadores[0].valor} />
-      {/* <p>aumento desd inicio de mes: {variation}%</p> */}
     </main>
   );
 }
